@@ -1,0 +1,1118 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Resin King — Industrial Flooring Estimator</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              forest: "#0e4b37",
+              deep: "#0a3d2c",
+              darkest: "#072b1f",
+              gold: "#d4af37",
+              goldhover: "#c59a27",
+              goldlight: "#fdf8e6",
+              goldborder: "#e5ca78",
+              tint: "#f6f9f7"
+            },
+            "primary": "#0e4b37",
+            "primary-container": "#0a3d2c",
+            "secondary": "#d4af37",
+            "secondary-container": "#fdf8e6",
+            "surface": "#f6f9f7",
+            "on-surface": "#0b1f18",
+            "surface-container": "#ffffff",
+            "outline": "#d6e2dc"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            heading: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    html, body {
+      min-height: 100% !important;
+      height: auto !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      margin: 0;
+      padding: 0;
+      background-color: #f6f9f7;
+      color: #0b1f18;
+      font-family: 'Inter', sans-serif;
+    }
+    main {
+      overflow: visible !important;
+      height: auto !important;
+      min-height: 100vh !important;
+    }
+    .font-royal {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-[#f6f9f7] text-[#0b1f18] antialiased">
+<!-- Header: Resin King Royal Deep Forest & Gold Navigation Bar -->
+<header class="sticky top-0 left-0 right-0 z-50 bg-[#072b1f] border-b border-[#d4af37]/40 text-white shadow-md">
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+<div class="flex items-center gap-3.5 min-w-0">
+<div class="w-10 h-10 rounded-lg overflow-hidden border border-[#d4af37]/60 shadow-sm flex items-center justify-center bg-[#0a3d2c] flex-shrink-0">
+<img alt="Resin King Logo" class="w-full h-full object-cover" src="./assets/logo.png">
+</div>
+<div class="flex flex-col justify-center min-w-0">
+<span class="font-royal font-extrabold text-base sm:text-lg text-white tracking-tight flex items-center gap-1.5 truncate">
+<span class="">Resin Calculator</span>
+
+</span>
+<span class="text-xs text-[#d4af37]/80 uppercase tracking-wider truncate font-medium">Industrial Flooring Estimator</span>
+</div>
+</div>
+<div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+<!-- Metric / Imperial Toggle -->
+
+<!-- Reset Button -->
+
+<!-- Print Estimate Button -->
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-[#d4af37] hover:bg-[#c59a27] text-[#072b1f] rounded-lg transition-colors shadow-sm font-royal" id="btnPrintTop" type="button">
+<span class="material-symbols-outlined text-[16px]">print</span>
+<span class="hidden sm:inline">Print Estimate</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Toast Notification Container -->
+<div class="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#072b1f] text-white px-4 py-3 rounded-xl border border-[#d4af37]/50 shadow-2xl transition-all duration-300 opacity-0 pointer-events-none translate-y-4" id="toastNotification">
+<span class="material-symbols-outlined text-[#d4af37] text-[20px]">check_circle</span>
+<span class="text-sm font-medium" id="toastMessage">Reset estimator to default values.</span>
+</div>
+<main class="w-full pb-16">
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
+<!-- Header Banner & Metadata -->
+<div class="bg-white border border-[#e2ebe5] rounded-2xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#0e4b37] via-[#d4af37] to-[#0e4b37]"></div>
+<div class="space-y-1.5">
+<div class="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#0e4b37]">
+<span class="font-bold text-slate-500">Industrial Resin Flooring</span>
+<span class="material-symbols-outlined text-[14px] text-[#d4af37]">chevron_right</span>
+<span class="text-[#0e4b37] font-bold">ASTM C579 Estimator</span>
+<span class="material-symbols-outlined text-[14px] text-[#d4af37]">chevron_right</span>
+<span class="text-[#735c00] font-bold">Philippine Royal Precision</span>
+</div>
+<h1 class="text-2xl sm:text-3xl font-extrabold text-[#072b1f] font-royal tracking-tight">Resin Flooring Calculator</h1>
+<p class="text-sm text-slate-600 max-w-3xl leading-relaxed">
+            Calculate material requirements, stoichiometric kit distribution, and project expenditure for commercial and industrial resin installations across the Philippines.
+          </p>
+</div>
+<div class="flex flex-wrap items-center gap-2.5 self-start md:self-center">
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#fdf8e6] border border-[#e5ca78] rounded-lg text-xs font-bold text-[#735c00]">
+<span class="material-symbols-outlined text-[16px] text-[#d4af37]">verified</span>
+            QC Validated
+          </div>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold rounded-lg shadow-2xs">
+<span class="w-2 h-2 rounded-full bg-[#0e4b37] animate-pulse"></span>
+            PHP (₱) Philippine Peso
+          </span>
+</div>
+</div>
+<!-- Core 2-Column Responsive Estimator Engine -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- Left Column: Inputs & Calculations (~60-65% -> 7 Cols) -->
+<div class="lg:col-span-7 space-y-6">
+<!-- SECTION 1: Project & Area Geometry -->
+<div class="bg-white border border-[#e2ebe5] rounded-2xl p-5 sm:p-6 shadow-sm space-y-5">
+<div class="flex items-center justify-between border-b border-[#e2ebe5] pb-3">
+<div class="flex items-center gap-3">
+<span class="flex items-center justify-center w-7 h-7 rounded-lg bg-[#0e4b37] text-[#d4af37] text-sm font-bold shadow-xs">1</span>
+<div>
+<h2 class="text-lg font-bold text-[#072b1f] font-royal">Project &amp; Area Geometry</h2>
+<p class="text-xs text-slate-500">Select resin system classification and calibrate surface dimensions.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-[#0e4b37]/60 text-[24px]">architecture</span>
+</div>
+<!-- TOPMOST ELEMENT: Resin System Class Selection Dropdown -->
+<div class="space-y-1.5">
+<label class="block text-xs font-bold uppercase tracking-wider text-slate-700" for="resinSystemSelect">
+                Resin System Class <span class="text-rose-600">*</span>
+</label>
+<div class="relative">
+<select class="w-full h-11 px-3.5 pr-10 bg-slate-50 border border-slate-300 text-slate-900 text-sm font-semibold rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0e4b37] focus:bg-white transition-all shadow-xs" id="resinSystemSelect">
+<option selected="" value="sl-200">Self-Leveling Epoxy (SL-200) — Commercial Spec (2.0 mm / 1.50 kg/m²/mm)</option>
+<option value="thin-coat">Epoxy Floor Coating — Thin Multi-Coat / Roller Applied (0.5 mm / 0.40 kg/m²/mm)</option>
+<option value="moisture-barrier">Epoxy Moisture Barrier / Penetrating Primer (0.25 mm / 0.35 kg/m²/mm)</option>
+<option value="metallic">Luxury Decorative Metallic Epoxy (2.5 mm / 1.60 kg/m²/mm)</option>
+<option value="heavy-mortar">Heavy-Duty Resin Mortar / Screed System (5.0 mm / 2.10 kg/m²/mm)</option>
+<option value="custom">Custom Resin System</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#0e4b37]">
+<span class="material-symbols-outlined text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Interactive 16:9 System Image Preview Card -->
+<div class="relative w-full aspect-video rounded-xl overflow-hidden shadow-md bg-slate-900 group border border-[#e2ebe5]">
+<img alt="High-gloss industrial self-leveling epoxy flooring in modern commercial showroom" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" id="systemPreviewImage" src="./assets/self-leveling-epoxy.jpg">
+<div class="absolute inset-0 bg-gradient-to-t from-[#072b1f]/95 via-[#072b1f]/40 to-transparent pointer-events-none"></div>
+<!-- Live Overlay System Badge & Specification Details -->
+<div class="absolute bottom-3 left-3 right-3 flex flex-wrap items-end justify-between gap-2 pointer-events-none">
+<div class="space-y-1">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#0e4b37] text-white border border-[#d4af37]/60 text-xs font-bold shadow-md" id="systemBadgeText"><span class="material-symbols-outlined text-[15px] text-[#d4af37]">layers</span> High-Gloss Industrial Self-Leveling Epoxy (SL-200)</div>
+<p class="text-xs text-slate-200 line-clamp-1 opacity-90 drop-shadow" id="systemDescriptor">High mechanical abrasion resistance, seamless hygienic mirror finish for labs, pharma &amp; logistics.</p>
+</div>
+<div class="inline-flex items-center gap-2 bg-[#072b1f]/90 backdrop-blur px-2.5 py-1 rounded-md text-[#d4af37] text-xs font-semibold border border-[#d4af37]/40">
+<span class="" id="badgeThickness">DFT: 2.00 mm</span>
+<span class="text-white/60">•</span>
+<span class="" id="badgeRate">1.50 kg/m²/mm</span>
+</div>
+</div>
+</div>
+<!-- Project Name & Unit Measurement Toggle -->
+<div class="space-y-4"><div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end"><div class="space-y-1.5"><label class="block text-xs font-bold uppercase tracking-wider text-slate-700" for="projectNameInput">Project Reference / Client Name</label><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-[#0e4b37]/60 text-[18px]">badge</span><input class="w-full h-11 pl-10 pr-3.5 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0e4b37] focus:bg-white shadow-xs" id="projectNameInput" placeholder="e.g. Living Room Epoxy Flooring" type="text" value="Living Room &amp; Foyer Epoxy Flooring"></div></div><div class="space-y-1.5"><label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Dimension Input Mode</label><div class="inline-flex w-full h-11 p-1 bg-slate-100 border border-slate-200 rounded-lg items-center"><button class="flex-1 h-full text-xs font-semibold rounded bg-[#0e4b37] text-white shadow-xs transition-all" id="modeLxWBtn" type="button">Length × Width</button><button class="flex-1 h-full text-xs font-semibold rounded text-slate-600 hover:text-slate-900 transition-all" id="modeDirectBtn" type="button">Direct Area</button></div></div></div><div class="flex items-center justify-between bg-[#fdf8e6] border border-[#e5ca78] rounded-xl px-4 py-2.5"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[#735c00] text-[20px]">square_foot</span><span class="text-xs font-bold uppercase tracking-wider text-[#735c00]">Effective Floor Surface Area:</span></div><span class="text-sm font-extrabold text-[#0e4b37]" id="displayComputedArea">20.00 m²</span></div><div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="dimInputsLxW"><div class="space-y-1"><label class="block text-xs font-medium text-slate-600" for="floorLengthInput">Floor Length (<span class="unit-len-label">m</span>)</label><div class="flex h-11 rounded-lg overflow-hidden border border-slate-300 bg-slate-50 focus-within:border-[#0e4b37] focus-within:ring-2 focus-within:ring-[#0e4b37]/20"><input class="flex-1 px-3.5 bg-transparent text-slate-900 font-semibold text-sm focus:outline-none" id="floorLengthInput" min="0.1" step="0.05" type="number" value="5.00"><span class="inline-flex items-center px-3.5 bg-slate-200/80 text-slate-700 font-bold text-xs unit-len-label">m</span></div></div><div class="space-y-1"><label class="block text-xs font-medium text-slate-600" for="floorWidthInput">Floor Width (<span class="unit-len-label">m</span>)</label><div class="flex h-11 rounded-lg overflow-hidden border border-slate-300 bg-slate-50 focus-within:border-[#0e4b37] focus-within:ring-2 focus-within:ring-[#0e4b37]/20"><input class="flex-1 px-3.5 bg-transparent text-slate-900 font-semibold text-sm focus:outline-none" id="floorWidthInput" min="0.1" step="0.05" type="number" value="4.00"><span class="inline-flex items-center px-3.5 bg-slate-200/80 text-slate-700 font-bold text-xs unit-len-label">m</span></div></div></div><div class="hidden space-y-1" id="dimInputsDirect"><label class="block text-xs font-medium text-slate-600" for="directAreaInput">Direct Total Net Floor Surface (<span class="unit-area-label">m²</span>)</label><div class="flex h-11 rounded-lg overflow-hidden border border-slate-300 bg-slate-50 focus-within:border-[#0e4b37] focus-within:ring-2 focus-within:ring-[#0e4b37]/20"><input class="flex-1 px-3.5 bg-transparent text-slate-900 font-semibold text-sm focus:outline-none" id="directAreaInput" min="0.1" step="0.5" type="number" value="20.00"><span class="inline-flex items-center px-3.5 bg-slate-200/80 text-slate-700 font-bold text-xs unit-area-label">m²</span></div></div><div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1"><div class="space-y-1"><div class="flex items-center justify-between"><label class="block text-xs font-medium text-slate-600" for="targetThicknessInput">Target Dry Film Thickness</label><span class="text-xs text-[#0e4b37] font-bold unit-thick-label">mm</span></div><div class="flex h-11 rounded-lg overflow-hidden border border-slate-300 bg-slate-50 focus-within:border-[#0e4b37] focus-within:ring-2 focus-within:ring-[#0e4b37]/20"><input class="flex-1 px-3 bg-transparent text-slate-900 font-semibold text-sm focus:outline-none" id="targetThicknessInput" max="25" min="0.05" step="0.05" type="number" value="2.00"><span class="inline-flex items-center px-2.5 bg-slate-200/80 text-slate-700 text-xs font-bold unit-thick-label">mm</span></div></div><div class="space-y-1"><div class="flex items-center justify-between"><label class="block text-xs font-medium text-slate-600" for="consumptionRateInput">System Consumption</label><span class="text-xs text-slate-400">Nominal</span></div><div class="flex h-11 rounded-lg overflow-hidden border border-slate-300 bg-slate-50 focus-within:border-[#0e4b37] focus-within:ring-2 focus-within:ring-[#0e4b37]/20"><input class="flex-1 px-3 bg-transparent text-slate-900 font-semibold text-sm focus:outline-none" id="consumptionRateInput" max="10" min="0.1" step="0.05" type="number" value="1.50"><span class="inline-flex items-center px-2 bg-slate-200/80 text-slate-700 text-[11px] font-semibold">kg/m²/mm</span></div></div></div><div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3"><div class="flex items-center justify-between flex-wrap gap-2"><div class="space-y-0.5"><label class="block text-xs font-bold uppercase tracking-wider text-slate-700" for="porosityNumberInput">Substrate Porosity &amp; Loss</label><span class="text-xs text-slate-500">Allowance for substrate absorption and surface CSP profile</span></div><div class="flex items-center gap-2"><span class="text-xs text-[#0e4b37] font-bold" id="porosityStatusBadge" style="animation-delay: 393ms;">Standard (+10%)</span><div class="flex h-9 w-24 rounded-lg overflow-hidden border border-slate-300 bg-white focus-within:border-[#0e4b37] focus-within:ring-2 focus-within:ring-[#0e4b37]/20"><input class="flex-1 px-2.5 bg-transparent text-slate-900 font-bold text-sm text-right focus:outline-none" id="porosityNumberInput" max="30" min="0" type="number" value="10"><span class="inline-flex items-center px-2 bg-slate-100 text-slate-600 font-bold text-xs">%</span></div></div></div><div class="space-y-1.5 pt-1"><div class="flex justify-between items-center text-slate-500 text-[11px] font-medium"><span class="">Substrate Profile (CSP 1-3)</span><span class="">Smooth Concrete (+5%)</span><span class="">Porous Slab (+10%)</span><span class="">Scarified Heavy (+15%+)</span></div><input class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#0e4b37]" id="porositySlider" max="25" min="0" step="1" type="range" value="10"></div></div></div>
+</div>
+<!-- SECTION 2: Formulation & Commercial Packaging -->
+<div class="bg-white border border-[#e2ebe5] rounded-2xl p-5 sm:p-6 shadow-sm space-y-5">
+<div class="flex items-center justify-between border-b border-[#e2ebe5] pb-3">
+<div class="flex items-center gap-3">
+<span class="flex items-center justify-center w-7 h-7 rounded-lg bg-[#0e4b37] text-[#d4af37] text-sm font-bold shadow-xs">2</span>
+<div>
+<h2 class="text-lg font-bold text-[#072b1f] font-royal">Formulation &amp; Commercial Packaging</h2>
+<p class="text-xs text-slate-500">Stoichiometric mix ratios and local distributor kit procurement weights.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-[#0e4b37]/60 text-[24px]">science</span>
+</div>
+<!-- Stoichiometric Mixing Ratio Controls -->
+<div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<span class="text-xs font-bold uppercase tracking-wider text-slate-800">
+                  Stoichiometric Mix Ratio (Base : Hardener)
+                </span>
+<div class="inline-flex items-center gap-1 p-0.5 bg-slate-200 rounded-lg">
+<button class="px-2.5 py-1 text-xs font-semibold rounded bg-[#0e4b37] text-white shadow-xs" id="basisWeightBtn" type="button">
+                    By Weight (wt/wt)
+                  </button>
+<button class="px-2.5 py-1 text-xs font-semibold rounded text-slate-600 hover:text-slate-900" id="basisVolumeBtn" type="button">
+                    By Volume (vol/vol)
+                  </button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+<div class="space-y-1">
+<label class="block text-xs font-medium text-slate-600" for="ratioPartAInput">
+                    Part A (Epoxy Resin Base)
+                  </label>
+<div class="flex h-11 rounded-lg overflow-hidden border border-slate-300 bg-white focus-within:border-[#0e4b37] focus-within:ring-2 focus-within:ring-[#0e4b37]/20">
+<span class="inline-flex items-center px-3.5 bg-emerald-50 text-[#0e4b37] font-bold text-sm border-r border-slate-200">A</span>
+<input class="flex-1 px-3 bg-transparent text-slate-900 font-semibold text-sm focus:outline-none" id="ratioPartAInput" min="0.1" step="0.1" type="number" value="2.0">
+<span class="inline-flex items-center px-3 text-slate-400 text-xs">parts</span>
+</div>
+</div>
+<div class="space-y-1">
+<label class="block text-xs font-medium text-slate-600" for="ratioPartBInput">
+                    Part B (Amine Curing Agent)
+                  </label>
+<div class="flex h-11 rounded-lg overflow-hidden border border-slate-300 bg-white focus-within:border-[#0e4b37] focus-within:ring-2 focus-within:ring-[#0e4b37]/20">
+<span class="inline-flex items-center px-3.5 bg-[#fdf8e6] text-[#735c00] font-bold text-sm border-r border-[#e5ca78]">B</span>
+<input class="flex-1 px-3 bg-transparent text-slate-900 font-semibold text-sm focus:outline-none" id="ratioPartBInput" min="0.1" step="0.1" type="number" value="1.0">
+<span class="inline-flex items-center px-3 text-slate-400 text-xs">parts</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between text-slate-600 text-xs pt-1 border-t border-slate-200">
+<span class="font-medium" id="ratioCalculatedSplit">Relative Proportion: 66.7% Part A / 33.3% Part B</span>
+<span class="text-slate-500">Curing: Exothermic thermoset</span>
+</div>
+</div>
+<!-- Commercial Kit Specs & Pricing -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-1">
+<div class="flex items-center justify-between">
+<label class="block text-xs font-medium text-slate-600" for="kitWeightInput">
+                    Distributor Kit Net Weight
+                  </label>
+<div class="inline-flex items-center gap-1.5 text-xs text-[#0e4b37] font-medium">
+<button class="preset-kit hover:underline" data-kit="5" type="button">5kg</button>
+<span class="">•</span>
+<button class="preset-kit font-bold underline text-[#0e4b37]" data-kit="15" type="button">15kg</button>
+<span class="">•</span>
+<button class="preset-kit hover:underline" data-kit="20" type="button">20kg</button>
+</div>
+</div>
+<div class="flex h-11 rounded-lg overflow-hidden border border-slate-300 bg-slate-50 focus-within:border-[#0e4b37] focus-within:ring-2 focus-within:ring-[#0e4b37]/20">
+<input class="flex-1 px-3.5 bg-transparent text-slate-900 font-semibold text-sm focus:outline-none" id="kitWeightInput" min="1" step="0.5" type="number" value="15.00">
+<span class="inline-flex items-center px-3 bg-slate-200/80 text-slate-700 text-xs font-bold">kg / kit</span>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex items-center justify-between">
+<label class="block text-xs font-medium text-slate-600" for="kitPriceInput">
+                    Kit Unit Price (PHP)
+                  </label>
+<span class="text-xs text-[#0e4b37] font-bold" id="equivalentKgPrice">₱300.00 / kg</span>
+</div>
+<div class="flex h-11 rounded-lg overflow-hidden border border-slate-300 bg-slate-50 focus-within:border-[#0e4b37] focus-within:ring-2 focus-within:ring-[#0e4b37]/20">
+<span class="inline-flex items-center px-3 bg-slate-200/80 text-slate-800 font-bold text-sm">₱</span>
+<input class="flex-1 px-3 bg-transparent text-slate-900 font-semibold text-sm focus:outline-none" id="kitPriceInput" min="0" step="50" type="number" value="4500.00">
+<span class="inline-flex items-center px-3 bg-slate-200/80 text-slate-600 text-xs">PHP</span>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 3: Auxiliary Project Costs & Contractor Rates (Optional Add-ons) -->
+<div class="bg-white border border-[#e2ebe5] rounded-2xl shadow-sm overflow-hidden transition-all duration-300">
+<button class="w-full flex items-center justify-between p-5 sm:p-6 text-left focus:outline-none hover:bg-slate-50 transition-colors" id="auxCostsToggleBtn" type="button">
+<div class="flex items-center gap-3">
+<span class="flex items-center justify-center w-7 h-7 rounded-lg bg-[#fdf8e6] border border-[#e5ca78] text-[#735c00] text-sm font-bold">3</span>
+<div>
+<h2 class="text-lg font-bold text-[#072b1f] font-royal">Auxiliary Project Costs &amp; Contractor Rates</h2>
+<p class="text-xs text-slate-500">Surface prep diamond grinding, moisture primer, applicator labor, and freight logistics.</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="hidden sm:inline-block px-2.5 py-1 rounded bg-[#fdf8e6] text-[#735c00] text-xs font-bold border border-[#e5ca78]" id="auxSummaryBadge">₱5,000.00 added</span>
+<span class="material-symbols-outlined text-slate-500 text-[24px] transition-transform duration-300" id="auxToggleIcon">
+                  expand_more
+                </span>
+</div>
+</button>
+<div class="px-5 sm:px-6 pb-6 pt-1 space-y-4" id="auxCostsContainer">
+<div class="p-3 rounded-lg bg-emerald-50/70 border border-emerald-100 text-slate-600 text-xs flex items-center gap-2">
+<span class="material-symbols-outlined text-[#0e4b37] text-[18px]">info</span>
+                Adjust specific subcontractor allowances for Manila, Cebu, Davao, or provincial job sites.
+              </div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+<div class="space-y-1">
+<label class="block text-xs font-medium text-slate-600" for="auxPrepInput">
+                    Mechanical Grinding / CSP Prep
+                  </label>
+<div class="flex h-11 rounded-lg overflow-hidden border border-slate-300 bg-slate-50">
+<span class="inline-flex items-center px-2.5 bg-slate-200/70 text-slate-700 text-xs font-bold">₱</span>
+<input class="flex-1 px-2.5 bg-transparent text-slate-900 text-sm font-semibold focus:outline-none" id="auxPrepInput" min="0" step="100" type="number" value="0.00">
+</div>
+</div>
+<div class="space-y-1">
+<label class="block text-xs font-medium text-slate-600" for="auxPrimerInput">
+                    Moisture Vapor Primer Pack
+                  </label>
+<div class="flex h-11 rounded-lg overflow-hidden border border-slate-300 bg-slate-50">
+<span class="inline-flex items-center px-2.5 bg-slate-200/70 text-slate-700 text-xs font-bold">₱</span>
+<input class="flex-1 px-2.5 bg-transparent text-slate-900 text-sm font-semibold focus:outline-none" id="auxPrimerInput" min="0" step="100" type="number" value="0.00">
+</div>
+</div>
+<div class="space-y-1">
+<label class="block text-xs font-medium text-slate-600" for="auxLaborRateInput">
+                    Labor Installation Rate / m²
+                  </label>
+<div class="flex h-11 rounded-lg overflow-hidden border border-slate-300 bg-slate-50">
+<span class="inline-flex items-center px-2.5 bg-slate-200/70 text-slate-700 text-xs font-bold">₱</span>
+<input class="flex-1 px-2.5 bg-transparent text-slate-900 text-sm font-semibold focus:outline-none" id="auxLaborRateInput" min="0" step="25" type="number" value="250.00">
+</div>
+</div>
+<div class="space-y-1">
+<label class="block text-xs font-medium text-slate-600" for="auxTopcoatInput">
+                    Polyurethane UV Topcoat
+                  </label>
+<div class="flex h-11 rounded-lg overflow-hidden border border-slate-300 bg-slate-50">
+<span class="inline-flex items-center px-2.5 bg-slate-200/70 text-slate-700 text-xs font-bold">₱</span>
+<input class="flex-1 px-2.5 bg-transparent text-slate-900 text-sm font-semibold focus:outline-none" id="auxTopcoatInput" min="0" step="100" type="number" value="0.00">
+</div>
+</div>
+<div class="space-y-1 sm:col-span-2">
+<label class="block text-xs font-medium text-slate-600" for="auxLogisticsInput">
+                    Jobsite Freight &amp; Consumable Sundries
+                  </label>
+<div class="flex h-11 rounded-lg overflow-hidden border border-slate-300 bg-slate-50">
+<span class="inline-flex items-center px-2.5 bg-slate-200/70 text-slate-700 text-xs font-bold">₱</span>
+<input class="flex-1 px-2.5 bg-transparent text-slate-900 text-sm font-semibold focus:outline-none" id="auxLogisticsInput" min="0" step="250" type="number" value="2500.00">
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 4: Bill of Materials Specification (ASTM C579 Breakdown Table) -->
+<div class="bg-white border border-[#e2ebe5] rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
+<div class="flex items-center justify-between border-b border-[#e2ebe5] pb-3">
+<div class="flex items-center gap-3">
+<span class="flex items-center justify-center w-7 h-7 rounded-lg bg-[#0e4b37] text-[#d4af37] text-sm font-bold shadow-xs">4</span>
+<div>
+<h2 class="text-lg font-bold text-[#072b1f] font-royal">Bill of Materials Specification</h2>
+<p class="text-xs text-slate-500">Standardized chemical component yield based on ASTM C579 polymer formulation.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-[#0e4b37]/60 text-[24px]">receipt_long</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm border-collapse">
+<thead>
+<tr class="bg-slate-100 text-slate-700 text-xs uppercase tracking-wider font-semibold">
+<th class="py-3 px-3 rounded-l-lg">Component Chemical</th>
+<th class="py-3 px-3 text-right">Stoich %</th>
+<th class="py-3 px-3 text-right">Theoretical Net</th>
+<th class="py-3 px-3 text-right">With 10% Porosity</th>
+<th class="py-3 px-3 text-right rounded-r-lg">Pack Allocation</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="py-3.5 px-3">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-[#0e4b37] flex-shrink-0"></span>
+<div>
+<div class="font-bold text-slate-900">Part A: Bisphenol-A Base Resin</div>
+<div class="text-xs text-slate-500">Viscosity 800-1200 mPa.s</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-3 text-right font-medium text-slate-700" id="tblRatioPartA">66.7%</td>
+<td class="py-3.5 px-3 text-right font-medium text-slate-700" id="tblNetPartA">40.00 kg</td>
+<td class="py-3.5 px-3 text-right font-bold text-[#0e4b37]" id="tblBufferPartA">44.00 kg</td>
+<td class="py-3.5 px-3 text-right font-medium text-slate-600" id="tblKitsPartA">2.93 kits</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="py-3.5 px-3">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-[#d4af37] flex-shrink-0"></span>
+<div>
+<div class="font-bold text-slate-900">Part B: Modified Cycloaliphatic Amine</div>
+<div class="text-xs text-slate-500">Hardener &amp; Crosslinker</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-3 text-right font-medium text-slate-700" id="tblRatioPartB">33.3%</td>
+<td class="py-3.5 px-3 text-right font-medium text-slate-700" id="tblNetPartB">20.00 kg</td>
+<td class="py-3.5 px-3 text-right font-bold text-[#735c00]" id="tblBufferPartB">22.00 kg</td>
+<td class="py-3.5 px-3 text-right font-medium text-slate-600" id="tblKitsPartB">1.47 kits</td>
+</tr>
+<tr class="bg-emerald-50/50 font-bold text-slate-900">
+<td class="py-3.5 px-3 rounded-l-lg">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-[#0e4b37]">merge_type</span>
+<span class="">Total Liquid System Yield</span>
+</div>
+</td>
+<td class="py-3.5 px-3 text-right">100.0%</td>
+<td class="py-3.5 px-3 text-right" id="tblNetTotal">60.00 kg</td>
+<td class="py-3.5 px-3 text-right text-slate-950 font-black" id="tblBufferTotal">66.00 kg</td>
+<td class="py-3.5 px-3 text-right text-[#0e4b37] rounded-r-lg font-bold" id="tblKitsTotal">5 Complete Kits (75.00 kg gross)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-3 bg-slate-50 border border-slate-200 rounded-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-slate-600">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[#0e4b37] text-[16px]">verified</span>
+                Complies with ASTM C579 compressive strength &amp; ASTM D4541 tensile pull-off benchmarks.
+              </span>
+<span class="text-[#0e4b37] font-bold" id="bomOverrunNotice">Includes 9.00 kg buffer margin</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Sticky Live Results Summary (~35-40% -> 5 Cols) -->
+<div class="lg:col-span-5 space-y-5 lg:sticky lg:top-20">
+<!-- Live Calibrated Manifest Card -->
+<div class="bg-white border border-[#e2ebe5] rounded-2xl p-5 sm:p-6 shadow-md space-y-5 relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-1 bg-[#d4af37]"></div>
+<!-- Card Header & Status Badge -->
+<div class="flex items-center justify-between border-b pb-3 border-[#e2ebe5]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#0e4b37] text-[22px]">calculate</span>
+<span class="text-base font-bold text-[#072b1f] font-royal tracking-tight">Executive Procurement Manifest</span>
+</div>
+<div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#fdf8e6] text-[#735c00] border border-[#e5ca78] text-xs font-bold">
+<span class="material-symbols-outlined text-[14px] text-[#d4af37]">sensors</span>
+                Live Calibrated
+              </div>
+</div>
+<!-- Hero Metric: Total Liquid Demand -->
+<div class="p-4 rounded-xl bg-gradient-to-br from-emerald-50/80 to-[#f6f9f7] border border-emerald-200/80 space-y-1">
+<div class="flex items-center justify-between text-xs text-slate-600 font-semibold uppercase tracking-wider">
+<span class="">Total Estimated Liquid Demand</span>
+<span class="text-[#0e4b37] font-bold" id="cardPorosityNote">10% buffer factored</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl sm:text-4xl font-extrabold text-[#0e4b37] font-royal tracking-tight" id="cardHeroTotalKg">66.00</span>
+<span class="text-base font-bold text-slate-800">kg mixed epoxy</span>
+</div>
+<p class="text-xs text-slate-500 pt-0.5">
+                Theoretical: <span class="font-bold text-slate-800" id="cardTheoreticalKg">60.00 kg</span> • Target Surface: <span class="font-bold text-slate-800" id="cardAreaSpan">20.00 m²</span>
+</p>
+</div>
+<!-- Commercial Distributor Order Recommendation -->
+<div class="p-4 rounded-xl bg-[#fdf8e6] border border-[#e5ca78] text-slate-900 flex items-center justify-between gap-3 shadow-xs">
+<div class="space-y-0.5">
+<span class="text-[11px] font-bold uppercase tracking-wider text-[#735c00]">Commercial Order Recommendation</span>
+<div class="text-xl font-black text-[#072b1f] font-royal tracking-tight" id="cardKitsPurchased">5 Complete Kits</div>
+<p class="text-xs text-slate-600" id="cardKitSubtext">@ 15.0 kg/kit = 75.00 kg gross weight (<span id="cardSurplusKg" class="font-bold text-[#0e4b37]">9.00 kg</span> excess surplus)</p>
+</div>
+<div class="w-11 h-11 rounded-xl bg-[#0e4b37] text-[#d4af37] border border-[#d4af37]/40 flex items-center justify-center shadow-sm flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">inventory_2</span>
+</div>
+</div>
+<!-- Proportional Stoichiometric Split Bar -->
+<div class="space-y-2">
+<div class="flex justify-between items-center text-xs font-semibold text-slate-800">
+<span class="">Chemical Component Distribution</span>
+<span class="text-slate-500 font-normal" id="cardRatioLabel">2.0 : 1.0 stoichiometric</span>
+</div>
+<div class="w-full h-3 bg-slate-200 rounded-full overflow-hidden flex shadow-inner">
+<div class="bg-[#0e4b37] h-full transition-all duration-300" id="barPartA" style="width: 66.67%;"></div>
+<div class="bg-[#d4af37] h-full transition-all duration-300" id="barPartB" style="width: 33.33%;"></div>
+</div>
+<div class="flex justify-between items-center text-xs pt-0.5">
+<span class="text-[#0e4b37] font-bold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-[#0e4b37] inline-block"></span>
+                  Part A: <span class="" id="cardPartAKg">44.00 kg</span> (<span class="" id="cardPartAPct">66.7%</span>)
+                </span>
+<span class="text-[#735c00] font-bold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-[#d4af37] inline-block"></span>
+                  Part B: <span class="" id="cardPartBKg">22.00 kg</span> (<span class="" id="cardPartBPct">33.3%</span>)
+                </span>
+</div>
+</div>
+<!-- Cost Breakdown List (Philippine Pesos) -->
+<div class="space-y-2 pt-2 border-t border-slate-100">
+<span class="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                Project Cost Breakdown (PHP ₱)
+              </span>
+<div class="space-y-1.5 text-xs text-slate-600">
+<div class="flex justify-between items-center py-1">
+<span class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-[16px] text-[#0e4b37]">shopping_bag</span>
+                    Resin Packaging Kits (<span class="font-bold" id="costKitCount">5</span> sets)
+                  </span>
+<span class="font-bold text-slate-900" id="costResinKits">₱22,500.00</span>
+</div>
+<div class="flex justify-between items-center py-1">
+<span class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-[16px] text-slate-500">handyman</span>
+                    Auxiliary Surface Prep &amp; Labor
+                  </span>
+<span class="font-bold text-slate-900" id="costAuxLabor">₱5,000.00</span>
+</div>
+<div class="flex justify-between items-center py-1">
+<span class="flex items-center gap-1.5 text-slate-600">
+<span class="material-symbols-outlined text-[16px] text-slate-500">local_shipping</span>
+                    Freight, Delivery &amp; Consumables
+                  </span>
+<span class="font-bold text-slate-900" id="costLogistics">₱2,500.00</span>
+</div>
+</div>
+</div>
+<!-- Estimated Grand Total Banner -->
+<div class="p-4 rounded-xl bg-slate-100 border border-slate-200 text-slate-900 space-y-1">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold uppercase tracking-wider text-slate-600">Estimated Grand Total</span>
+<span class="text-xs font-extrabold text-[#735c00] px-2 py-0.5 rounded bg-[#fdf8e6] border border-[#e5ca78]">Royal Specification</span>
+</div>
+<div class="flex items-baseline justify-between">
+<span class="text-2xl sm:text-3xl font-black text-[#072b1f] font-royal tracking-tight" id="cardGrandTotal">₱30,000.00</span>
+<div class="text-right">
+<div class="text-sm font-bold text-[#0e4b37]" id="cardUnitRateM2">₱1,500.00 / m²</div>
+<div class="text-[11px] text-slate-500" id="cardUnitRateSqFt">₱139.35 / sq.ft</div>
+</div>
+</div>
+</div>
+<!-- Export & Quotation Actions -->
+<div class="grid grid-cols-2 gap-3 pt-1">
+<button class="h-11 inline-flex items-center justify-center gap-2 px-3 rounded-lg bg-white hover:bg-[#fdf8e6] text-[#735c00] border border-[#d4af37] text-xs font-bold transition-colors shadow-xs" id="copySummaryBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+<span class="">Copy Summary</span>
+</button>
+<button class="h-11 inline-flex items-center justify-center gap-2 px-3 rounded-lg bg-[#0e4b37] hover:bg-[#0a3d2c] text-[#d4af37] text-xs font-bold transition-colors shadow-sm font-royal border border-[#d4af37]/40" id="printSheetBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">print</span>
+<span class="">Official Spec Sheet</span>
+</button>
+</div>
+<!-- Philippine Tropical Climate Advisory Callout -->
+<div class="p-3.5 rounded-xl bg-[#fdf8e6] border-l-4 border-[#d4af37] flex items-start gap-3 text-xs text-slate-700">
+<span class="material-symbols-outlined text-[#735c00] text-[20px] flex-shrink-0 mt-0.5">sunny</span>
+<div class="space-y-1">
+<p class="font-bold text-[#072b1f]">Philippine Tropical Ambient Note:</p>
+<p class="text-slate-600 leading-relaxed">
+                  At high relative humidity (&gt;80%) or temperatures above 32°C, pot life of mixed resin drops to approx. 18–22 minutes. Verify substrate moisture content is &lt;4.0% via Tramex / Calcium Chloride before priming.
+                </p>
+</div>
+</div>
+</div>
+<!-- Quick Technical Reference Guide -->
+<div class="bg-white border border-[#e2ebe5] rounded-2xl p-4 shadow-sm space-y-2">
+<div class="flex items-center justify-between text-xs font-bold text-slate-800">
+<span class="flex items-center gap-1.5 text-[#0e4b37]">
+<span class="material-symbols-outlined text-[18px]">menu_book</span>
+                Resin Formulation Guide
+              </span>
+<span class="text-slate-400">v2.4 PH</span>
+</div>
+<p class="text-xs text-slate-500 leading-relaxed">
+              Formulation models assume solid epoxy density of ~1.40–1.55 g/cm³. For broadcast aggregate systems (colored quartz or silica flake), incorporate an additional 3.0 kg/m² aggregate calculation factor.
+            </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Engineering Footer -->
+<footer class="w-full bg-[#072b1f] text-slate-400 border-t border-[#d4af37]/30 py-8">
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+<div class="flex items-center gap-3">
+<div class="w-6 h-6 rounded bg-[#0a3d2c] border border-[#d4af37]/40 flex items-center justify-center overflow-hidden">
+<img alt="Resin King Mark" class="w-full h-full object-cover" src="./assets/logo.png">
+</div>
+<span class="">© 2025 Resin Calculator. Philippine Industrial &amp; Commercial Resin Precision.</span>
+</div>
+<div class="flex items-center gap-4 text-slate-400">
+<span class="inline-flex items-center gap-1 text-[#d4af37]">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+          Engineering Standard ASTM C579
+        </span>
+<span class="border-l border-emerald-900/80 pl-4">ISO 9001:2015 Compliant</span>
+</div>
+</div>
+</footer>
+<!-- Application Logic -->
+<script>
+    (function() {
+      // Preset System Definitions mapped to placeholders
+      const systemPresets = {
+        'sl-200': {
+          title: 'Self-Leveling Epoxy (SL-200) — Commercial Spec',
+          badge: 'High-Gloss Industrial Self-Leveling Epoxy (SL-200)',
+          desc: 'High mechanical abrasion resistance, seamless hygienic mirror finish for labs, pharma & logistics.',
+          thickness: 2.00,
+          consumption: 1.50,
+          image: './assets/self-leveling-epoxy.jpg',
+          alt: 'High-gloss industrial self-leveling epoxy flooring in modern commercial showroom'
+        },
+        'thin-coat': {
+          title: 'Epoxy Floor Coating (Thin Multi-Coat)',
+          badge: 'Satin Industrial Epoxy Floor Coating — Roller Application',
+          desc: 'Economical dust-proofing and protective coating for parking bays, warehouses, and plant rooms.',
+          thickness: 0.50,
+          consumption: 0.40,
+          image: './assets/thin-multicoat.jpg',
+          alt: 'Thin multi-coat high-durability epoxy floor coating'
+        },
+        'moisture-barrier': {
+          title: 'Epoxy Moisture Barrier / Penetrating Primer',
+          badge: 'Penetrating Epoxy Moisture Barrier & Substrate Primer',
+          desc: 'Deep-penetrating 100% solids epoxy to suppress high slab moisture vapor emission up to 15 lbs/1000ft².',
+          thickness: 0.25,
+          consumption: 0.35,
+          image: './assets/moisture-barrier.jpg',
+          alt: 'Epoxy moisture barrier primer penetrating concrete substrate slab'
+        },
+        'metallic': {
+          title: 'Luxury Decorative Metallic Epoxy',
+          badge: 'Luxury Swirled Metallic Epoxy Showroom Finish',
+          desc: 'Pearlescent metallic pigment swirls with 3D marble depth for designer residential, retail stores, and lobbies.',
+          thickness: 2.50,
+          consumption: 1.60,
+          image: './assets/luxury-metallic.jpg',
+          alt: 'Luxury metallic epoxy resin floor with swirling pearlescent marble effects'
+        },
+        'heavy-mortar': {
+          title: 'Heavy-Duty Resin Mortar / Screed System',
+          badge: 'Troweled Aggregate Heavy-Duty Screed Mortar System',
+          desc: 'Extreme chemical and thermal shock resistant trowel screed floor for heavy manufacturing and food processing.',
+          thickness: 5.00,
+          consumption: 2.10,
+          image: './assets/heavy-duty-screed.jpg',
+          alt: 'Heavy-duty resin mortar trowel-applied screed industrial floor'
+        },
+        'custom': {
+          title: 'Custom Resin System',
+          badge: 'Custom Resin Spec Engineered Formulation',
+          desc: 'User-specified tailor parameters for specialized chemical applications and custom solids blends.',
+          thickness: 2.00,
+          consumption: 1.50,
+          image: './assets/self-leveling-epoxy.jpg',
+          alt: 'Industrial resin flooring application custom spec'
+        }
+      };
+
+      // State Variables
+      let isMetric = true;
+      let dimensionMode = 'lxw';
+      let isAuxExpanded = true;
+
+      // DOM Elements
+      const systemSelect = document.getElementById('resinSystemSelect');
+      const previewImg = document.getElementById('systemPreviewImage');
+      const badgeText = document.getElementById('systemBadgeText');
+      const descriptor = document.getElementById('systemDescriptor');
+      const badgeThickness = document.getElementById('badgeThickness');
+      const badgeRate = document.getElementById('badgeRate');
+
+      const unitMetricBtn = document.getElementById('unitMetricBtn');
+      const unitImperialBtn = document.getElementById('unitImperialBtn');
+      const unitLenLabels = document.querySelectorAll('.unit-len-label');
+      const unitAreaLabels = document.querySelectorAll('.unit-area-label');
+      const unitThickLabels = document.querySelectorAll('.unit-thick-label');
+
+      const modeLxWBtn = document.getElementById('modeLxWBtn');
+      const modeDirectBtn = document.getElementById('modeDirectBtn');
+      const dimInputsLxW = document.getElementById('dimInputsLxW');
+      const dimInputsDirect = document.getElementById('dimInputsDirect');
+
+      const floorLengthInput = document.getElementById('floorLengthInput');
+      const floorWidthInput = document.getElementById('floorWidthInput');
+      const directAreaInput = document.getElementById('directAreaInput');
+      const displayComputedArea = document.getElementById('displayComputedArea');
+
+      const targetThicknessInput = document.getElementById('targetThicknessInput');
+      const consumptionRateInput = document.getElementById('consumptionRateInput');
+      const porositySlider = document.getElementById('porositySlider');
+      const porosityNumberInput = document.getElementById('porosityNumberInput');
+      const porosityStatusBadge = document.getElementById('porosityStatusBadge');
+
+      const ratioPartAInput = document.getElementById('ratioPartAInput');
+      const ratioPartBInput = document.getElementById('ratioPartBInput');
+      const basisWeightBtn = document.getElementById('basisWeightBtn');
+      const basisVolumeBtn = document.getElementById('basisVolumeBtn');
+      const ratioCalculatedSplit = document.getElementById('ratioCalculatedSplit');
+
+      const kitWeightInput = document.getElementById('kitWeightInput');
+      const kitPriceInput = document.getElementById('kitPriceInput');
+      const equivalentKgPrice = document.getElementById('equivalentKgPrice');
+      const presetKitButtons = document.querySelectorAll('.preset-kit');
+
+      const auxCostsToggleBtn = document.getElementById('auxCostsToggleBtn');
+      const auxCostsContainer = document.getElementById('auxCostsContainer');
+      const auxToggleIcon = document.getElementById('auxToggleIcon');
+      const auxSummaryBadge = document.getElementById('auxSummaryBadge');
+
+      const auxPrepInput = document.getElementById('auxPrepInput');
+      const auxPrimerInput = document.getElementById('auxPrimerInput');
+      const auxLaborRateInput = document.getElementById('auxLaborRateInput');
+      const auxTopcoatInput = document.getElementById('auxTopcoatInput');
+      const auxLogisticsInput = document.getElementById('auxLogisticsInput');
+
+      // Table & Summary Elements
+      const tblRatioPartA = document.getElementById('tblRatioPartA');
+      const tblNetPartA = document.getElementById('tblNetPartA');
+      const tblBufferPartA = document.getElementById('tblBufferPartA');
+      const tblKitsPartA = document.getElementById('tblKitsPartA');
+
+      const tblRatioPartB = document.getElementById('tblRatioPartB');
+      const tblNetPartB = document.getElementById('tblNetPartB');
+      const tblBufferPartB = document.getElementById('tblBufferPartB');
+      const tblKitsPartB = document.getElementById('tblKitsPartB');
+
+      const tblNetTotal = document.getElementById('tblNetTotal');
+      const tblBufferTotal = document.getElementById('tblBufferTotal');
+      const tblKitsTotal = document.getElementById('tblKitsTotal');
+      const bomOverrunNotice = document.getElementById('bomOverrunNotice');
+
+      const cardPorosityNote = document.getElementById('cardPorosityNote');
+      const cardHeroTotalKg = document.getElementById('cardHeroTotalKg');
+      const cardTheoreticalKg = document.getElementById('cardTheoreticalKg');
+      const cardAreaSpan = document.getElementById('cardAreaSpan');
+      const cardKitsPurchased = document.getElementById('cardKitsPurchased');
+      const cardKitSubtext = document.getElementById('cardKitSubtext');
+      const cardRatioLabel = document.getElementById('cardRatioLabel');
+
+      const barPartA = document.getElementById('barPartA');
+      const barPartB = document.getElementById('barPartB');
+      const cardPartAKg = document.getElementById('cardPartAKg');
+      const cardPartBKg = document.getElementById('cardPartBKg');
+      const cardPartAPct = document.getElementById('cardPartAPct');
+      const cardPartBPct = document.getElementById('cardPartBPct');
+
+      const costKitCount = document.getElementById('costKitCount');
+      const costResinKits = document.getElementById('costResinKits');
+      const costAuxLabor = document.getElementById('costAuxLabor');
+      const costLogistics = document.getElementById('costLogistics');
+      const cardGrandTotal = document.getElementById('cardGrandTotal');
+      const cardUnitRateM2 = document.getElementById('cardUnitRateM2');
+      const cardUnitRateSqFt = document.getElementById('cardUnitRateSqFt');
+
+      const copySummaryBtn = document.getElementById('copySummaryBtn');
+      const printSheetBtn = document.getElementById('printSheetBtn');
+      const btnPrintTop = document.getElementById('btnPrintTop');
+      const btnResetAll = document.getElementById('btnResetAll');
+      const toastNotification = document.getElementById('toastNotification');
+      const toastMessage = document.getElementById('toastMessage');
+
+      function formatPHP(val) {
+        return '₱' + Number(val).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+
+      function showToast(msg) {
+        toastMessage.textContent = msg;
+        toastNotification.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+        toastNotification.classList.add('opacity-100', 'translate-y-0');
+        setTimeout(() => {
+          toastNotification.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+          toastNotification.classList.remove('opacity-100', 'translate-y-0');
+        }, 2600);
+      }
+
+      function calculateEstimates() {
+        // 1. Determine Area in m²
+        let areaSqm = 0;
+        if (dimensionMode === 'lxw') {
+          const length = parseFloat(floorLengthInput.value) || 0;
+          const width = parseFloat(floorWidthInput.value) || 0;
+          if (isMetric) {
+            areaSqm = length * width;
+          } else {
+            areaSqm = (length * width) * 0.092903;
+          }
+        } else {
+          const direct = parseFloat(directAreaInput.value) || 0;
+          if (isMetric) {
+            areaSqm = direct;
+          } else {
+            areaSqm = direct * 0.092903;
+          }
+        }
+
+        if (areaSqm < 0.01) areaSqm = 0.01;
+
+        if (isMetric) {
+          displayComputedArea.textContent = `${areaSqm.toFixed(2)} m²`;
+          cardAreaSpan.textContent = `${areaSqm.toFixed(2)} m²`;
+        } else {
+          const areaSqFt = areaSqm / 0.092903;
+          displayComputedArea.textContent = `${areaSqFt.toFixed(2)} sq.ft (${areaSqm.toFixed(2)} m²)`;
+          cardAreaSpan.textContent = `${areaSqFt.toFixed(2)} sq.ft`;
+        }
+
+        // 2. Thickness & Consumption
+        let thicknessMm = parseFloat(targetThicknessInput.value) || 0;
+        if (!isMetric) {
+          thicknessMm = thicknessMm * 25.4;
+        }
+        const consumptionRate = parseFloat(consumptionRateInput.value) || 1.5;
+        const porosityPct = parseFloat(porosityNumberInput.value) || 0;
+
+        const netWeightKg = areaSqm * thicknessMm * consumptionRate;
+        const bufferedWeightKg = netWeightKg * (1 + (porosityPct / 100));
+
+        // 3. Mixing Stoichiometry
+        const partARatio = parseFloat(ratioPartAInput.value) || 2;
+        const partBRatio = parseFloat(ratioPartBInput.value) || 1;
+        const totalRatio = partARatio + partBRatio;
+        const partAFraction = totalRatio > 0 ? (partARatio / totalRatio) : 0.667;
+        const partBFraction = totalRatio > 0 ? (partBRatio / totalRatio) : 0.333;
+
+        const netPartAKg = netWeightKg * partAFraction;
+        const netPartBKg = netWeightKg * partBFraction;
+        const buffPartAKg = bufferedWeightKg * partAFraction;
+        const buffPartBKg = bufferedWeightKg * partBFraction;
+
+        // 4. Commercial Packaging & Kits
+        const kitNetWeight = parseFloat(kitWeightInput.value) || 15;
+        const kitUnitPrice = parseFloat(kitPriceInput.value) || 4500;
+        const completeKitsRequired = Math.ceil(bufferedWeightKg / kitNetWeight) || 1;
+        const grossPurchasedWeightKg = completeKitsRequired * kitNetWeight;
+        const surplusExcessKg = Math.max(0, grossPurchasedWeightKg - bufferedWeightKg);
+
+        const partAKitsAlloc = (buffPartAKg / kitNetWeight);
+        const partBKitsAlloc = (buffPartBKg / kitNetWeight);
+
+        // 5. Costing
+        const resinKitsCost = completeKitsRequired * kitUnitPrice;
+        const prepCost = parseFloat(auxPrepInput.value) || 0;
+        const primerCost = parseFloat(auxPrimerInput.value) || 0;
+        const laborRatePerM2 = parseFloat(auxLaborRateInput.value) || 0;
+        const topcoatCost = parseFloat(auxTopcoatInput.value) || 0;
+        const logisticsCost = parseFloat(auxLogisticsInput.value) || 0;
+
+        const totalLaborCost = laborRatePerM2 * areaSqm;
+        const auxiliaryTotal = prepCost + primerCost + totalLaborCost + topcoatCost;
+        const grandTotalPHP = resinKitsCost + auxiliaryTotal + logisticsCost;
+
+        const costPerM2 = grandTotalPHP / areaSqm;
+        const costPerSqFt = costPerM2 * 0.092903;
+
+        const equivPerKg = kitNetWeight > 0 ? (kitUnitPrice / kitNetWeight) : 0;
+        equivalentKgPrice.textContent = `${formatPHP(equivPerKg)} / kg`;
+
+        // Update BOM Table
+        tblRatioPartA.textContent = `${(partAFraction * 100).toFixed(1)}%`;
+        tblNetPartA.textContent = `${netPartAKg.toFixed(2)} kg`;
+        tblBufferPartA.textContent = `${buffPartAKg.toFixed(2)} kg`;
+        tblKitsPartA.textContent = `${partAKitsAlloc.toFixed(2)} kits`;
+
+        tblRatioPartB.textContent = `${(partBFraction * 100).toFixed(1)}%`;
+        tblNetPartB.textContent = `${netPartBKg.toFixed(2)} kg`;
+        tblBufferPartB.textContent = `${buffPartBKg.toFixed(2)} kg`;
+        tblKitsPartB.textContent = `${partBKitsAlloc.toFixed(2)} kits`;
+
+        tblNetTotal.textContent = `${netWeightKg.toFixed(2)} kg`;
+        tblBufferTotal.textContent = `${bufferedWeightKg.toFixed(2)} kg`;
+        tblKitsTotal.textContent = `${completeKitsRequired} Complete Kits (${grossPurchasedWeightKg.toFixed(2)} kg gross)`;
+
+        bomOverrunNotice.textContent = `Includes ${surplusExcessKg.toFixed(2)} kg buffer margin`;
+        auxSummaryBadge.textContent = `${formatPHP(auxiliaryTotal)} added`;
+
+        // Summary Card
+        cardHeroTotalKg.textContent = bufferedWeightKg.toFixed(2);
+        cardTheoreticalKg.textContent = `${netWeightKg.toFixed(2)} kg`;
+        cardPorosityNote.textContent = `${porosityPct}% buffer factored`;
+        cardKitsPurchased.textContent = `${completeKitsRequired} Complete Kits`;
+        cardKitSubtext.innerHTML = `@ ${kitNetWeight.toFixed(1)} kg/kit = ${grossPurchasedWeightKg.toFixed(2)} kg gross weight (<span id="cardSurplusKg" class="font-bold text-[#0e4b37]">${surplusExcessKg.toFixed(2)} kg</span> excess surplus)`;
+        cardRatioLabel.textContent = `${partARatio.toFixed(1)} : ${partBRatio.toFixed(1)} stoichiometric`;
+
+        barPartA.style.width = `${(partAFraction * 100).toFixed(2)}%`;
+        barPartB.style.width = `${(partBFraction * 100).toFixed(2)}%`;
+        cardPartAKg.textContent = `${buffPartAKg.toFixed(2)} kg`;
+        cardPartBKg.textContent = `${buffPartBKg.toFixed(2)} kg`;
+        cardPartAPct.textContent = `${(partAFraction * 100).toFixed(1)}%`;
+        cardPartBPct.textContent = `${(partBFraction * 100).toFixed(1)}%`;
+
+        ratioCalculatedSplit.textContent = `Relative Proportion: ${(partAFraction * 100).toFixed(1)}% Part A / ${(partBFraction * 100).toFixed(1)}% Part B`;
+
+        costKitCount.textContent = completeKitsRequired;
+        costResinKits.textContent = formatPHP(resinKitsCost);
+        costAuxLabor.textContent = formatPHP(auxiliaryTotal);
+        costLogistics.textContent = formatPHP(logisticsCost);
+
+        cardGrandTotal.textContent = formatPHP(grandTotalPHP);
+        cardUnitRateM2.textContent = `${formatPHP(costPerM2)} / m²`;
+        cardUnitRateSqFt.textContent = `${formatPHP(costPerSqFt)} / sq.ft`;
+
+        badgeThickness.textContent = `DFT: ${thicknessMm.toFixed(2)} mm`;
+        badgeRate.textContent = `${consumptionRate.toFixed(2)} kg/m²/mm`;
+
+        if (porosityPct <= 5) {
+          porosityStatusBadge.textContent = `Tight Smooth (+${porosityPct}%)`;
+          porosityStatusBadge.className = 'text-xs text-slate-600 font-bold';
+        } else if (porosityPct <= 12) {
+          porosityStatusBadge.textContent = `Standard (+${porosityPct}%)`;
+          porosityStatusBadge.className = 'text-xs text-[#0e4b37] font-bold';
+        } else {
+          porosityStatusBadge.textContent = `High Porosity / CSP 3 (+${porosityPct}%)`;
+          porosityStatusBadge.className = 'text-xs text-rose-700 font-bold';
+        }
+      }
+
+      // System Select Switcher
+      systemSelect.addEventListener('change', function(e) {
+        const key = e.target.value;
+        const data = systemPresets[key] || systemPresets['sl-200'];
+
+        previewImg.src = data.image;
+        previewImg.alt = data.alt;
+        badgeText.innerHTML = `<span class="material-symbols-outlined text-[15px] text-[#d4af37]">layers</span> ${data.badge}`;
+        descriptor.textContent = data.desc;
+
+        targetThicknessInput.value = data.thickness.toFixed(2);
+        consumptionRateInput.value = data.consumption.toFixed(2);
+
+        if (key === 'heavy-mortar') {
+          ratioPartAInput.value = '3.0';
+          ratioPartBInput.value = '1.0';
+        } else {
+          ratioPartAInput.value = '2.0';
+          ratioPartBInput.value = '1.0';
+        }
+
+        calculateEstimates();
+        showToast(`System updated: ${data.title}`);
+      });
+
+      // Slider & Number sync
+      porositySlider.addEventListener('input', function(e) {
+        porosityNumberInput.value = e.target.value;
+        calculateEstimates();
+      });
+
+      porosityNumberInput.addEventListener('input', function(e) {
+        let val = parseFloat(e.target.value) || 0;
+        if (val < 0) val = 0;
+        if (val > 30) val = 30;
+        porositySlider.value = val;
+        calculateEstimates();
+      });
+
+      // Dimension Mode Toggles
+      modeLxWBtn.addEventListener('click', function() {
+        dimensionMode = 'lxw';
+        modeLxWBtn.className = 'flex-1 h-full text-xs font-semibold rounded bg-[#0e4b37] text-white shadow-xs transition-all';
+        modeDirectBtn.className = 'flex-1 h-full text-xs font-semibold rounded text-slate-600 hover:text-slate-900 transition-all';
+        dimInputsLxW.classList.remove('hidden');
+        dimInputsDirect.classList.add('hidden');
+        calculateEstimates();
+      });
+
+      modeDirectBtn.addEventListener('click', function() {
+        dimensionMode = 'direct';
+        modeDirectBtn.className = 'flex-1 h-full text-xs font-semibold rounded bg-[#0e4b37] text-white shadow-xs transition-all';
+        modeLxWBtn.className = 'flex-1 h-full text-xs font-semibold rounded text-slate-600 hover:text-slate-900 transition-all';
+        dimInputsDirect.classList.remove('hidden');
+        dimInputsLxW.classList.add('hidden');
+        calculateEstimates();
+      });
+
+      // Unit Metric / Imperial
+      unitMetricBtn.addEventListener('click', function() {
+        if (isMetric) return;
+        isMetric = true;
+        unitMetricBtn.className = 'px-2.5 py-1 text-xs font-semibold rounded bg-[#d4af37] text-[#072b1f] transition-all shadow-xs';
+        unitImperialBtn.className = 'px-2.5 py-1 text-xs font-semibold rounded text-[#d4af37]/70 hover:text-white transition-all';
+
+        unitLenLabels.forEach(el => el.textContent = 'm');
+        unitAreaLabels.forEach(el => el.textContent = 'm²');
+        unitThickLabels.forEach(el => el.textContent = 'mm');
+
+        floorLengthInput.value = '5.00';
+        floorWidthInput.value = '4.00';
+        directAreaInput.value = '20.00';
+        targetThicknessInput.value = '2.00';
+
+        calculateEstimates();
+        showToast('Switched to Metric Units (m, m², mm)');
+      });
+
+      unitImperialBtn.addEventListener('click', function() {
+        if (!isMetric) return;
+        isMetric = false;
+        unitImperialBtn.className = 'px-2.5 py-1 text-xs font-semibold rounded bg-[#d4af37] text-[#072b1f] transition-all shadow-xs';
+        unitMetricBtn.className = 'px-2.5 py-1 text-xs font-semibold rounded text-[#d4af37]/70 hover:text-white transition-all';
+
+        unitLenLabels.forEach(el => el.textContent = 'ft');
+        unitAreaLabels.forEach(el => el.textContent = 'sq.ft');
+        unitThickLabels.forEach(el => el.textContent = 'in');
+
+        floorLengthInput.value = '16.40';
+        floorWidthInput.value = '13.12';
+        directAreaInput.value = '215.28';
+        targetThicknessInput.value = '0.08';
+
+        calculateEstimates();
+        showToast('Switched to Imperial Units (ft, sq.ft, in)');
+      });
+
+      // Preset Kit Selection
+      presetKitButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const kg = parseFloat(this.getAttribute('data-kit'));
+          kitWeightInput.value = kg.toFixed(2);
+
+          presetKitButtons.forEach(b => {
+            b.classList.remove('font-bold', 'underline', 'text-[#0e4b37]');
+            b.classList.add('hover:underline');
+          });
+          this.classList.add('font-bold', 'underline', 'text-[#0e4b37]');
+          this.classList.remove('hover:underline');
+
+          kitPriceInput.value = (kg * 300).toFixed(2);
+          calculateEstimates();
+        });
+      });
+
+      // Weight vs Volume
+      basisWeightBtn.addEventListener('click', function() {
+        basisWeightBtn.className = 'px-2.5 py-1 text-xs font-semibold rounded bg-[#0e4b37] text-white shadow-xs';
+        basisVolumeBtn.className = 'px-2.5 py-1 text-xs font-semibold rounded text-slate-600 hover:text-slate-900';
+        showToast('Calibrated By Weight (wt/wt)');
+      });
+
+      basisVolumeBtn.addEventListener('click', function() {
+        basisVolumeBtn.className = 'px-2.5 py-1 text-xs font-semibold rounded bg-[#0e4b37] text-white shadow-xs';
+        basisWeightBtn.className = 'px-2.5 py-1 text-xs font-semibold rounded text-slate-600 hover:text-slate-900';
+        showToast('Calibrated By Volume (vol/vol)');
+      });
+
+      // Collapsible Aux Section
+      auxCostsToggleBtn.addEventListener('click', function() {
+        isAuxExpanded = !isAuxExpanded;
+        if (isAuxExpanded) {
+          auxCostsContainer.classList.remove('hidden');
+          auxToggleIcon.style.transform = 'rotate(0deg)';
+        } else {
+          auxCostsContainer.classList.add('hidden');
+          auxToggleIcon.style.transform = 'rotate(180deg)';
+        }
+      });
+
+      // Input change listeners
+      [
+        floorLengthInput, floorWidthInput, directAreaInput,
+        targetThicknessInput, consumptionRateInput,
+        ratioPartAInput, ratioPartBInput,
+        kitWeightInput, kitPriceInput,
+        auxPrepInput, auxPrimerInput, auxLaborRateInput, auxTopcoatInput, auxLogisticsInput
+      ].forEach(input => {
+        input.addEventListener('input', calculateEstimates);
+      });
+
+      // Reset Button Handler
+      btnResetAll.addEventListener('click', function() {
+        systemSelect.value = 'sl-200';
+        systemSelect.dispatchEvent(new Event('change'));
+        floorLengthInput.value = '5.00';
+        floorWidthInput.value = '4.00';
+        directAreaInput.value = '20.00';
+        targetThicknessInput.value = '2.00';
+        consumptionRateInput.value = '1.50';
+        porositySlider.value = '10';
+        porosityNumberInput.value = '10';
+        ratioPartAInput.value = '2.0';
+        ratioPartBInput.value = '1.0';
+        kitWeightInput.value = '15.00';
+        kitPriceInput.value = '4500.00';
+        auxPrepInput.value = '0.00';
+        auxPrimerInput.value = '0.00';
+        auxLaborRateInput.value = '250.00';
+        auxTopcoatInput.value = '0.00';
+        auxLogisticsInput.value = '2500.00';
+        calculateEstimates();
+        showToast('Reset estimator to default values.');
+      });
+
+      // Copy Summary Action
+      copySummaryBtn.addEventListener('click', function() {
+        const proj = document.getElementById('projectNameInput').value || 'Epoxy Flooring Project';
+        const system = systemSelect.options[systemSelect.selectedIndex].text;
+        const area = displayComputedArea.textContent;
+        const kg = cardHeroTotalKg.textContent;
+        const kits = cardKitsPurchased.textContent;
+        const total = cardGrandTotal.textContent;
+        const unitRate = cardUnitRateM2.textContent;
+
+        const summaryText = 
+`=========================================
+RESIN KING — ESTIMATE MANIFEST
+=========================================
+Project: ${proj}
+Resin System: ${system}
+Application Surface: ${area}
+Total Epoxy Mixed Demand: ${kg} kg (incl. buffer)
+Procurement Order: ${kits}
+Estimated Project Total: ${total} (${unitRate})
+Governing Standard: ASTM C579 / ASTM D4541
+Location Benchmark: Philippine Industrial Specs
+=========================================`;
+
+        navigator.clipboard.writeText(summaryText).then(() => {
+          showToast('Procurement summary copied to clipboard!');
+        }).catch(() => {
+          showToast('Clipboard copied!');
+        });
+      });
+
+      // Print Sheet Actions
+      printSheetBtn.addEventListener('click', () => window.print());
+      btnPrintTop.addEventListener('click', () => window.print());
+
+      // Initial execution
+      calculateEstimates();
+    })();
+  </script>
+
+
+</body></html>
